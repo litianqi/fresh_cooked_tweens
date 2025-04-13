@@ -18,6 +18,8 @@ enum class EDelayState : uint8
 class FCTWEEN_API FCTweenInstance
 {
 public:
+	TWeakObjectPtr<UObject> Owner;
+	FName Name;
 	float DurationSecs;
 	EFCEase EaseType;
 	float Counter;

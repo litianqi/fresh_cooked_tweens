@@ -9,7 +9,7 @@ public:
 	float EndValue;
 	TFunction<void(float)> OnUpdate;
 
-	void Initialize(float InStart, float InEnd, TFunction<void(float)> InOnUpdate, float InDurationSecs, EFCEase InEaseType);
+	void Initialize(UObject* InOwner, FName InName, float InStart, float InEnd, TFunction<void(float)> InOnUpdate, float InDurationSecs, EFCEase InEaseType);
 
 protected:
 	virtual void ApplyEasing(float EasedPercent) override;

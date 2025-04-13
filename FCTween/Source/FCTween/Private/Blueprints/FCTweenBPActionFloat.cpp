@@ -35,12 +35,14 @@ UFCTweenBPActionFloat* UFCTweenBPActionFloat::TweenFloatCustomCurve(float Start,
 FCTweenInstance* UFCTweenBPActionFloat::CreateTween()
 {
 	return FCTween::Play(
-		Start, End, [&](float t) { ApplyEasing.Broadcast(t); }, DurationSecs, EaseType);
+	this,TEXT(""),
+	Start, End, [&](float t) { ApplyEasing.Broadcast(t); }, DurationSecs, EaseType);
 }
 
 FCTweenInstance* UFCTweenBPActionFloat::CreateTweenCustomCurve()
 {
 	return FCTween::Play(
+	this,TEXT(""),
 		0, 1,
 		[&](float t)
 		{

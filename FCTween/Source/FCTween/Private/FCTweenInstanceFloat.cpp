@@ -2,8 +2,10 @@
 #include "FCTweenInstanceFloat.h"
 
 void FCTweenInstanceFloat::Initialize(
-	float InStart, float InEnd, TFunction<void(float)> InOnUpdate, float InDurationSecs, EFCEase InEaseType)
+	UObject* InOwner, FName InName, float InStart, float InEnd, TFunction<void(float)> InOnUpdate, float InDurationSecs, EFCEase InEaseType)
 {
+	this->Owner = InOwner;
+	this->Name = InName;
 	this->StartValue = InStart;
 	this->EndValue = InEnd;
 	this->OnUpdate = MoveTemp(InOnUpdate);

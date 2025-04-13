@@ -52,7 +52,7 @@ public:
 	static float Ease(float t, EFCEase EaseType);
 
 	static FCTweenInstanceFloat* Play(
-		float Start, float End, TFunction<void(float)> OnUpdate, float DurationSecs, EFCEase EaseType = EFCEase::OutQuad);
+		UObject* Owner, FName Name, float Start, float End, TFunction<void(float)> OnUpdate, float DurationSecs, EFCEase EaseType = EFCEase::OutQuad);
 
 	static FCTweenInstanceVector* Play(
 		FVector Start, FVector End, TFunction<void(FVector)> OnUpdate, float DurationSecs, EFCEase EaseType = EFCEase::OutQuad);
@@ -62,4 +62,10 @@ public:
 
 	static FCTweenInstanceQuat* Play(
 		FQuat Start, FQuat End, TFunction<void(FQuat)> OnUpdate, float DurationSecs, EFCEase EaseType = EFCEase::OutQuad);
+
+	static void Stop(UObject* Owner, FName Name);
+
+	static void Stop(UObject* Owner);
+	
+	static bool IsPlaying(UObject* Owner, FName Name);
 };

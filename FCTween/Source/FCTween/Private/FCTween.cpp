@@ -105,10 +105,10 @@ float FCTween::Ease(float t, EFCEase EaseType)
 	return FCEasing::Ease(t, EaseType);
 }
 
-FCTweenInstanceFloat* FCTween::Play(float Start, float End, TFunction<void(float)> OnUpdate, float DurationSecs, EFCEase EaseType)
+FCTweenInstanceFloat* FCTween::Play(UObject* Owner, FName Name, float Start, float End, TFunction<void(float)> OnUpdate, float DurationSecs, EFCEase EaseType)
 {
 	FCTweenInstanceFloat* NewTween = FloatTweenManager->CreateTween();
-	NewTween->Initialize(Start, End, MoveTemp(OnUpdate), DurationSecs, EaseType);
+	NewTween->Initialize(Owner, Name, Start, End, MoveTemp(OnUpdate), DurationSecs, EaseType);
 	return NewTween;
 }
 
@@ -133,4 +133,26 @@ FCTweenInstanceQuat* FCTween::Play(FQuat Start, FQuat End, TFunction<void(FQuat)
 	FCTweenInstanceQuat* NewTween = QuatTweenManager->CreateTween();
 	NewTween->Initialize(Start, End, MoveTemp(OnUpdate), DurationSecs, EaseType);
 	return NewTween;
+}
+
+void FCTween::Stop(UObject* Owner, FName Name)
+{
+	FloatTweenManager->StopTween(Owner, Name);
+	VectorTweenManager->StopTween(Owner, Name);
+	Vector2DTweenManager->StopTween(Owner, Name);
+	QuatTweenManager->StopTween(Owner, Name);
+}
+
+void FCTween::Stop(UObject* Owner)
+{
+	FloatTweenManager->ClearTweens(Owner);
+	VectorTweenManager->ClearTweens(Owner);
+	Vector2DTweenManager->ClearTweens(Owner);
+	QuatTweenManager->ClearTweens(Owner);
+}
+
+bool FCTween::IsPlaying(UObject* Owner, FName Name)
+{
+	return FloatTweenManager->IsTweenActive(Owner, Name) || VectorTweenManager->IsTweenActive(Owner, Name) ||
+		Vector2DTweenManager->IsTweenActive(Owner, Name) || QuatTweenManager->IsTweenActive(Owner, Name);
 }

@@ -117,11 +117,98 @@ public:
 		}
 	}
 
+	void ClearTweens(UObject* Owner)
+	{
+		TNode* CurNode = TweensToActivate->GetHead();
+		while (CurNode != nullptr)
+		{
+			TNode* NextNode = CurNode->GetNextNode();
+			if (CurNode->GetValue()->Owner.IsValid() && CurNode->GetValue()->Owner.Get() == Owner)
+			{
+				CurNode->GetValue()->Destroy();
+				TweensToActivate->RemoveNode(CurNode, false);
+				RecycledTweens->AddTail(CurNode);
+			}
+			CurNode = NextNode;
+		}
+
+		CurNode = ActiveTweens->GetHead();
+		while (CurNode != nullptr)
+		{
+			TNode* NextNode = CurNode->GetNextNode();
+			if (CurNode->GetValue()->Owner.IsValid() && CurNode->GetValue()->Owner.Get() == Owner)
+			{
+				CurNode->GetValue()->Destroy();
+				TweensToActivate->RemoveNode(CurNode, false);
+				RecycledTweens->AddTail(CurNode);
+			}
+			CurNode = NextNode;
+		}
+	}
+
+	void StopTween(UObject* Owner, FName Name)
+	{
+		TNode* CurNode = TweensToActivate->GetHead();
+		while (CurNode != nullptr)
+		{
+			TNode* NextNode = CurNode->GetNextNode();
+			if (CurNode->GetValue()->Owner.IsValid() && CurNode->GetValue()->Owner.Get() == Owner && 
+				CurNode->GetValue()->Name == Name)
+			{
+				CurNode->GetValue()->Destroy();
+				TweensToActivate->RemoveNode(CurNode, false);
+				RecycledTweens->AddTail(CurNode);
+			}
+			CurNode = NextNode;
+		}
+
+		CurNode = ActiveTweens->GetHead();
+		while (CurNode != nullptr)
+		{
+			TNode* NextNode = CurNode->GetNextNode();
+			if (CurNode->GetValue()->Owner.IsValid() && CurNode->GetValue()->Owner.Get() == Owner && 
+				CurNode->GetValue()->Name == Name)
+			{
+				CurNode->GetValue()->Destroy();
+				TweensToActivate->RemoveNode(CurNode, false);
+				RecycledTweens->AddTail(CurNode);
+			}
+			CurNode = NextNode;
+		}
+	}
+
 	T* CreateTween()
 	{
 		TNode* NewTween = GetNewTween();
 		TweensToActivate->AddTail(NewTween);
 		return NewTween->GetValue();
+	}
+
+	bool IsTweenActive(UObject* Owner, FName Name)
+	{
+		TNode* CurNode = TweensToActivate->GetHead();
+		while (CurNode != nullptr)
+		{
+			if (CurNode->GetValue()->Owner.IsValid() && CurNode->GetValue()->Owner.Get() == Owner && 
+				CurNode->GetValue()->Name == Name)
+			{
+				return true;
+			}
+			CurNode = CurNode->GetNextNode();
+		}
+
+		CurNode = ActiveTweens->GetHead();
+		while (CurNode != nullptr)
+		{
+			if (CurNode->GetValue()->Owner.IsValid() && CurNode->GetValue()->Owner.Get() == Owner && 
+				CurNode->GetValue()->Name == Name)
+			{
+				return true;
+			}
+			CurNode = CurNode->GetNextNode();
+		}
+
+		return false;
 	}
 
 private:

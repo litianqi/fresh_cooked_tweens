@@ -71,6 +71,7 @@ FCTweenInstance* UFCTweenBPActionQuat::CreateTween()
 FCTweenInstance* UFCTweenBPActionQuat::CreateTweenCustomCurve()
 {
 	return FCTween::Play(
+	this,TEXT(""),
 		0, 1,
 		[&](float t)
 		{

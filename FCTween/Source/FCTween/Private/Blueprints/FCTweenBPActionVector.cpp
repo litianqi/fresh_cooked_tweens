@@ -42,6 +42,7 @@ FCTweenInstance* UFCTweenBPActionVector::CreateTween()
 FCTweenInstance* UFCTweenBPActionVector::CreateTweenCustomCurve()
 {
 	return FCTween::Play(
+	this,TEXT(""),
 		0, 1,
 		[&](float t)
 		{

@@ -5,6 +5,10 @@
 
 #include "FCTweenBlueprintLibrary.generated.h"
 
+DECLARE_DYNAMIC_DELEGATE_OneParam(FFCTweenOnUpdateFloat, float, Value);
+
+DECLARE_DYNAMIC_DELEGATE(FFCTweenOnComplete);
+
 UCLASS()
 class FCTWEEN_API UFCTweenBlueprintLibrary : public UBlueprintFunctionLibrary
 {
@@ -34,4 +38,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Tween|Utility")
 	static void EnsureTweenCapacity(
 		int NumFloatTweens = 75, int NumVectorTweens = 50, int NumVector2DTweens = 50, int NumQuatTweens = 10);
+
+	UFUNCTION(BlueprintCallable, Category = "Tween")
+	static void TweenFloat(UObject* Owner, FName Name, float Start, float End, float Delay, float Duration, EFCEase EaseType, FFCTweenOnUpdateFloat OnUpdate, FFCTweenOnComplete OnComplete);
+
+	UFUNCTION(BlueprintCallable, Category = "Tween")
+	static void StopTween(UObject* Owner, FName Name);
+	
+	UFUNCTION(BlueprintCallable, Category = "Tween")
+	static void StopAllTweens(UObject* Owner);
+
+	UFUNCTION(BlueprintCallable, Category = "Tween")
+	static bool IsTweening(UObject* Owner, FName Name);
 };
